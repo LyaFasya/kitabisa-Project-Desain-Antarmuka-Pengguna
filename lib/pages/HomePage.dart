@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1EA0E5),
+        backgroundColor: const Color(0xFF10A8E5),
         title: Container(
           height: 40,
           padding: const EdgeInsets.symmetric(horizontal: 20),
