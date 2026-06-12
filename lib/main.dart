@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/edit-profile': (context) => const EditProfilePage(),
         '/donasi': (context) => const DonasiPage(),
         '/donasi-list': (context) => const DonasiListPage(),
+        '/inbox': (context) => const MainScreen(initialIndex: 3),
       },
     );
   }
