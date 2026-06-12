@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import '../themes/colors.dart';
-import '../widgets/AppBar.dart'; // Atau custom_navbar.dart
+import '../widgets/Header.dart';
 import '../widgets/GridOpsi.dart'; // Atau menu_grid.dart
 import '../widgets/ResponsiveLayout.dart'; 
 import '../widgets/HeroBanner.dart'; 
@@ -12,21 +12,25 @@ import '../widgets/CampaignSection.dart';
 import '../widgets/Footer.dart'; 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final bool showScaffold;
+  const HomePage({super.key, this.showScaffold = true});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  void _onNavbarTapped(int index) {
-    setState(() => _selectedIndex = index);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final Widget content = ResponsiveLayout(
+      mobileBody: _buildContent(isMobile: true),
+      desktopBody: _buildContent(isMobile: false),
+    );
+
+    if (!widget.showScaffold) {
+      return content;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white, // Latar belakang utama putih bersih
       
@@ -34,13 +38,10 @@ class _HomePageState extends State<HomePage> {
       drawer: _buildDrawer(),
 
       // 2. HEADER ATAS (Responsif: Hamburger di Mobile, Teks Nav di Desktop)
-      appBar: const CustomHeader(),
+      appBar: const MainHeader(selectedIndex: 0),
 
       // 3. BODY UTAMA (Dibungkus logic responsif)
-      body: ResponsiveLayout(
-        mobileBody: _buildContent(isMobile: true),
-        desktopBody: _buildContent(isMobile: false),
-      ),
+      body: content,
     );
   }
 
@@ -114,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: AppColors.primaryColor),
             accountName: const Text("Aulya Fasya"),
-            accountEmail: const Text("aulya@example.com"),
+            accountEmail: const Text("aulyafasya@gmail.com"),
             currentAccountPicture: const CircleAvatar(
               backgroundColor: Colors.white, 
               child: Text("AF", style: TextStyle(color: Color(0xFF1EA0E5), fontWeight: FontWeight.bold)),

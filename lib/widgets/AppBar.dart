@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import '../themes/colors.dart';
 
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
-  const CustomHeader({super.key});
+  final int selectedIndex;
+  final ValueChanged<int>? onTabChanged;
+
+  const CustomHeader({
+    super.key,
+    this.selectedIndex = 0,
+    this.onTabChanged,
+  });
 
   @override
-  Size get preferredSize => const Size.fromHeight(70); // Tinggi Header
+  Size get preferredSize => const Size.fromHeight(70);
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +49,22 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           icon: const Icon(Icons.menu, color: Color(0xFF1EA0E5), size: 30),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
-        const Text(
-          'Kitabisa',
-          style: TextStyle(
-            color: Color(0xFF1EA0E5),
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+        GestureDetector(
+          onTap: () => onTabChanged?.call(0),
+          child: const MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Text(
+              'Kitabisa',
+              style: TextStyle(
+                color: Color(0xFF1EA0E5),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         const Spacer(),
-        _buildActionIcons(),
+        _buildActionIcons(context, showName: false),
       ],
     );
   }
@@ -61,44 +73,62 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget _buildDesktopHeader(BuildContext context) {
     return Row(
       children: [
-        const Text(
-          'Kitabisa',
-          style: TextStyle(
-            color: Color(0xFF1EA0E5),
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
+        GestureDetector(
+          onTap: () => onTabChanged?.call(0),
+          child: const MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Text(
+              'Kitabisa',
+              style: TextStyle(
+                color: Color(0xFF1EA0E5),
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         const SizedBox(width: 40),
-        // Menu Navigasi
-        _navItem('Beranda'),
-        _navItem('Galang Dana'),
-        _navItem('Donasi', isButton: true),
-        _navItem('Inbox'),
+        _navItem('Beranda', selectedIndex == 0, () => onTabChanged?.call(0)),
+        _navItem('Galang Dana', selectedIndex == 1, () => onTabChanged?.call(1)),
+        _navItem('Donasi Saya', selectedIndex == 2, () => onTabChanged?.call(2), isButton: true),
+        _navItem('Inbox', selectedIndex == 3, () => onTabChanged?.call(3)),
         const Spacer(),
-        _buildActionIcons(showName: true),
+        _buildActionIcons(context, showName: true),
       ],
     );
   }
 
   // Widget Item Navigasi (Teks)
-  Widget _navItem(String title, {bool isButton = false}) {
+  Widget _navItem(String title, bool isActive, VoidCallback onTap, {bool isButton = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        padding: isButton ? const EdgeInsets.symmetric(horizontal: 20, vertical: 8) : null,
-        decoration: isButton
-            ? BoxDecoration(
-                color: const Color(0xFFE3F2FD),
-                borderRadius: BorderRadius.circular(10),
-              )
-            : null,
-        child: Text(
-          title,
-          style: TextStyle(
-            color: isButton ? const Color(0xFF1EA0E5) : Colors.black54,
-            fontWeight: isButton ? FontWeight.bold : FontWeight.w500,
-            fontSize: 15,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          padding: isButton || isActive ? const EdgeInsets.symmetric(horizontal: 20, vertical: 8) : null,
+          decoration: isActive
+              ? BoxDecoration(
+                  color: const Color(0xFFE3F2FD),
+                  borderRadius: BorderRadius.circular(10),
+                )
+              : isButton
+                  ? BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                  : null,
+          child: Text(
+            title,
+            style: TextStyle(
+              color: isActive
+                  ? const Color(0xFF1EA0E5)
+                  : isButton
+                      ? Colors.black87
+                      : Colors.black54,
+              fontWeight: isActive || isButton ? FontWeight.bold : FontWeight.w500,
+              fontSize: 15,
+            ),
           ),
         ),
       ),
@@ -106,7 +136,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   }
 
   // Ikon Pencarian, Notifikasi, dan Profil
-  Widget _buildActionIcons({bool showName = false}) {
+  Widget _buildActionIcons(BuildContext context, {bool showName = false}) {
     return Row(
       children: [
         const Icon(Icons.search, color: Colors.black54, size: 26),
@@ -125,25 +155,42 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
         const SizedBox(width: 20),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade200),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Row(
-            children: [
-              const CircleAvatar(
-                radius: 16,
-                backgroundColor: Color(0xFF1EA0E5),
-                child: Text('AF', style: TextStyle(color: Colors.white, fontSize: 12)),
+        InkWell(
+          onTap: () => onTabChanged?.call(4),
+          borderRadius: BorderRadius.circular(25),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: selectedIndex == 4 ? const Color(0xFFE3F2FD) : Colors.white,
+              border: Border.all(
+                color: selectedIndex == 4 ? const Color(0xFF1EA0E5) : Colors.grey.shade200,
               ),
-              if (showName) ...[
-                const SizedBox(width: 8),
-                const Text('Aulya Fasya', style: TextStyle(fontWeight: FontWeight.w500)),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Color(0xFF1EA0E5),
+                  child: Text('AF', style: TextStyle(color: Colors.white, fontSize: 12)),
+                ),
+                if (showName) ...[
+                  const SizedBox(width: 8),
+                  Text(
+                    'Aulya Fasya',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: selectedIndex == 4 ? const Color(0xFF1EA0E5) : Colors.black87,
+                    ),
+                  ),
+                ],
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: selectedIndex == 4 ? const Color(0xFF1EA0E5) : Colors.grey,
+                ),
               ],
-              const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-            ],
+            ),
           ),
         ),
       ],

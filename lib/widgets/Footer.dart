@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FooterSection extends StatelessWidget {
   const FooterSection({super.key});
@@ -74,16 +75,13 @@ class FooterSection extends StatelessWidget {
                 spacing: 16.0,
                 runSpacing: 16.0,
                 children: [
-                  _buildSocialIcon(Icons.facebook),
-                  // Catatan: Karena Flutter bawaan tidak punya logo merk lengkap,
-                  // Saya pakai ikon mirip sebagai placeholder. 
-                  // Nanti kamu bisa install package 'font_awesome_flutter' untuk logo aslinya.
-                  _buildSocialIcon(Icons.flutter_dash), // Placeholder Twitter/X
-                  _buildSocialIcon(Icons.camera_alt), // Placeholder Instagram
-                  _buildSocialIcon(Icons.play_arrow), // Placeholder YouTube
-                  _buildSocialIcon(Icons.music_note), // Placeholder TikTok
-                  _buildSocialIcon(Icons.work), // Placeholder LinkedIn
-                  _buildSocialIcon(Icons.send), // Placeholder Ikon Kertas Terbang
+                  _buildSocialIcon(FontAwesomeIcons.facebookF),
+                  _buildSocialIcon(FontAwesomeIcons.twitter),
+                  _buildSocialIcon(FontAwesomeIcons.instagram),
+                  _buildSocialIcon(FontAwesomeIcons.youtube),
+                  _buildSocialIcon(FontAwesomeIcons.tiktok),
+                  _buildSocialIcon(FontAwesomeIcons.linkedinIn),
+                  _buildSocialIcon(FontAwesomeIcons.paperPlane),
                 ],
               ),
               const SizedBox(height: 32),
@@ -130,7 +128,7 @@ class FooterSection extends StatelessWidget {
   }
 
   // Helper Method: Desain Lingkaran Ikon
-  Widget _buildSocialIcon(IconData icon) {
+  Widget _buildSocialIcon(dynamic icon) {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -139,7 +137,7 @@ class FooterSection extends StatelessWidget {
           color: Colors.white,
           shape: BoxShape.circle,
         ),
-        child: Icon(
+        child: FaIcon(
           icon,
           color: const Color(0xFF19324B), // Warna biru dongker logo
           size: 20,

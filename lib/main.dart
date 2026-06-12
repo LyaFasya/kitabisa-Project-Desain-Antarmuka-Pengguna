@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/ComingSoon.dart';
-
-import 'pages/HomePage.dart';
+import 'pages/MainScreen.dart';
+import 'pages/EditProfilePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,20 +13,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Kitabisa DAMP',
+      title: 'Kitabisa Clone Berstruktur',
       theme: ThemeData(
         primaryColor: const Color(0xFF1EA0E5),
         fontFamily: 'Roboto',
       ),
-      
+      // Mendaftarkan initial route (halaman pertama yang dibuka)
       initialRoute: '/home',
       routes: {
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const MainScreen(initialIndex: 0),
+        '/profile': (context) => const MainScreen(initialIndex: 4),
+        '/edit-profile': (context) => const EditProfilePage(),
       },
-
-      onUnknownRoute: (settings) => MaterialPageRoute(
-        builder: (context) => const ComingSoonPage(),
-      ),
     );
   }
 }
