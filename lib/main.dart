@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'pages/MainScreen.dart';
 import 'pages/EditProfilePage.dart';
 import 'pages/Donasi.dart';
@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF1EA0E5),
         fontFamily: 'Roboto',
       ),
-      // Mendaftarkan initial route (halaman pertama yang dibuka)
       initialRoute: '/home',
       routes: {
         '/home': (context) => const MainScreen(initialIndex: 0),

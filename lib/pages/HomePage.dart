@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 
 import '../themes/colors.dart';
@@ -34,13 +34,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white, // Latar belakang utama putih bersih
       
-      // 1. DRAWER (Menu Samping untuk Mobile)
       drawer: _buildDrawer(),
 
-      // 2. HEADER ATAS (Responsif: Hamburger di Mobile, Teks Nav di Desktop)
       appBar: const MainHeader(selectedIndex: 0),
 
-      // 3. BODY UTAMA (Dibungkus logic responsif)
       body: content,
     );
   }
@@ -49,49 +46,40 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // --- SECTION 1: HERO BANNER UTAMA ---
-          // (Kamu bisa mengganti konten di dalam HeroBanner dengan Image.asset 'section.png' jika ingin menggunakan gambar statismu)
           const HeroBanner(),
           
           const SizedBox(height: 32),
 
-          // --- SECTION 2: MENU GRID (Ikon Layanan) ---
           _buildConstrained(const MenuGrid()),
           
           const SizedBox(height: 32),
 
-          // --- SECTION 3: KARTU DONASI MENDESAK ---
           _buildConstrained(
             const CampaignSection(title: 'Penggalangan Dana Mendesak')
           ),
           
           const SizedBox(height: 40),
 
-          // --- SECTION 4: BANNER TENGAH (Gotong Royong Aceh) ---
           const MiddleBanner(),
           
           const SizedBox(height: 40),
 
-          // --- SECTION 5: KARTU DONASI BERKELANJUTAN ---
           _buildConstrained(
             const CampaignSection(title: 'Donasi Berkelanjutan')
           ),
           
           const SizedBox(height: 32),
 
-          // --- SECTION 6: KARTU PILIHAN KITA BISA ---
           _buildConstrained(
             const CampaignSection(title: 'Pilihan Kita Bisa')
           ),
           
           const SizedBox(height: 40),
 
-          // --- SECTION 7: KATEGORI FAVORIT ---
           _buildConstrained(const CategorySection()),
           
           const SizedBox(height: 60), // Jarak ekstra sebelum footer
 
-          // --- SECTION 8: FOOTER ---
           const FooterSection(),
         ],
       ),

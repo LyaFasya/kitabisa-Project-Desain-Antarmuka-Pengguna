@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
@@ -12,7 +12,6 @@ class CategorySection extends StatelessWidget {
         const SizedBox(height: 16),
         LayoutBuilder(
           builder: (context, constraints) {
-            // Gunakan Wrap agar turun baris jika layar menyempit
             return Wrap(
               spacing: 16,
               runSpacing: 16,

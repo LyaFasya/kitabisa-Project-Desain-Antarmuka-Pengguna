@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../widgets/SubPageHeader.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -410,7 +410,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Left Column: Ubah Foto Profile + Keamanan Akun
                       Expanded(
                         flex: 5,
                         child: Column(
@@ -422,7 +421,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ),
                       const SizedBox(width: 24),
-                      // Right Column: Data Diri + Action Buttons
                       Expanded(
                         flex: 7,
                         child: Column(

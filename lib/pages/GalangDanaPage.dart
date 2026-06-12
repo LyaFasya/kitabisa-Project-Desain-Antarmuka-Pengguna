@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class GalangDanaPage extends StatelessWidget {
   const GalangDanaPage({super.key});
@@ -30,7 +30,6 @@ class GalangDanaPage extends StatelessWidget {
         child: Column(
           children: [
 
-            // HERO SECTION
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(
@@ -68,7 +67,6 @@ class GalangDanaPage extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // STATISTIC
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: GridView.count(
@@ -114,7 +112,6 @@ class GalangDanaPage extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // CAMPAIGN
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: GridView.builder(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/InboxData.dart';
 
 class InboxListItem extends StatelessWidget {
@@ -87,3 +87,4 @@ class InboxListItem extends StatelessWidget {
     );
   }
 }
+

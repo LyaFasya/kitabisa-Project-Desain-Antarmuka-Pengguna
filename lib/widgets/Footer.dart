@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FooterSection extends StatelessWidget {
@@ -6,13 +6,11 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mendapatkan lebar layar secara real-time
     final screenWidth = MediaQuery.of(context).size.width;
     final bool isMobile = screenWidth < 600;
 
     return Container(
       width: double.infinity,
-      // 1. Menggunakan LinearGradient persis seperti gambar aslinya
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -29,13 +27,11 @@ class FooterSection extends StatelessWidget {
       ),
       child: Center(
         child: Container(
-          // 2. Mengunci lebar maksimal konten agar rapi di Desktop
           constraints: const BoxConstraints(maxWidth: 1100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               
-              // --- TEKS DESKRIPSI IZIN ---
               Text(
                 'Berdiri sejak 2013, Kitabisa memiliki izin Pengumpulan Uang dan Barang dari Kemensos. '
                 'Kitabisa rutin diaudit dengan status Wajar Tanpa Pengecualian (WTP).',
@@ -49,11 +45,9 @@ class FooterSection extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-              // --- GARIS PEMBATAS ---
               const Divider(color: Colors.white54, thickness: 1),
               const SizedBox(height: 24),
 
-              // --- MENU LINK (Menggunakan WRAP agar aman di HP) ---
               Wrap(
                 alignment: WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -69,7 +63,6 @@ class FooterSection extends StatelessWidget {
               ),
               const SizedBox(height: 32),
 
-              // --- IKON SOSIAL MEDIA ---
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 16.0,
@@ -86,7 +79,6 @@ class FooterSection extends StatelessWidget {
               ),
               const SizedBox(height: 32),
 
-              // --- COPYRIGHT ---
               Text(
                 'Copyright © 2026 Kitabisa. All Rights Reserved',
                 textAlign: TextAlign.center,
@@ -102,11 +94,9 @@ class FooterSection extends StatelessWidget {
     );
   }
 
-  // Helper Method: Desain Teks Link
   Widget _buildFooterLink(String text) {
     return InkWell(
       onTap: () {
-        // Aksi ketika diklik
       }, 
       child: Text(
         text,
@@ -119,7 +109,6 @@ class FooterSection extends StatelessWidget {
     );
   }
 
-  // Helper Method: Tanda Pipa "|"
   Widget _buildSeparator() {
     return const Text(
       '|',
@@ -127,7 +116,6 @@ class FooterSection extends StatelessWidget {
     );
   }
 
-  // Helper Method: Desain Lingkaran Ikon
   Widget _buildSocialIcon(dynamic icon) {
     return InkWell(
       onTap: () {},

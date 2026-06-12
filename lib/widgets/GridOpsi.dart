@@ -1,30 +1,24 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class MenuGrid extends StatelessWidget {
   const MenuGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Kita bungkus dengan LayoutBuilder untuk mendeteksi lebar area kontainer
     return LayoutBuilder(
       builder: (context, constraints) {
         
-        // Menentukan apakah ini layar besar (Desktop/Tablet) atau HP
         final bool isDesktop = constraints.maxWidth > 600;
 
         return GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           
-          // 1. UBAH JUMLAH KOLOM DINAMIS
-          // Desktop: 8 kolom berjejer. HP: 4 kolom.
           crossAxisCount: isDesktop ? 8 : 4,
           
           mainAxisSpacing: 16,
           crossAxisSpacing: 8,
           
-          // 2. UBAH RASIO KOTAK DINAMIS
-          // Desktop: 1.0 (Persegi normal). HP: 0.65 (Memanjang ke bawah agar tidak overflow)
           childAspectRatio: isDesktop ? 1.0 : 0.65, 
           
           children: [
@@ -35,7 +29,6 @@ class MenuGrid extends StatelessWidget {
             _buildMenuIcon(Icons.stars, 'Kitabisa\nExperience', Colors.orange, isNew: true),
             _buildMenuIcon(Icons.handshake, 'Kolaborasi CSR', Colors.blue.shade300, isNew: false),
             _buildMenuIcon(Icons.health_and_safety, 'Asuransi\nSalingJaga', Colors.orange.shade700, isNew: true),
-            // Tambahkan 1 ikon lagi agar genap 8 (opsional, disesuaikan dengan desain)
             _buildMenuIcon(Icons.mosque, 'Masjid', Colors.teal, isNew: false), 
           ],
         );
@@ -43,7 +36,6 @@ class MenuGrid extends StatelessWidget {
     );
   }
 
-  // Fungsi desain satuan untuk ikon tetap sama
   Widget _buildMenuIcon(IconData icon, String label, Color color, {required bool isNew, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,

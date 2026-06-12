@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'DonasiCard.dart';
 
 class FundraiserCard extends StatelessWidget {
@@ -78,3 +78,4 @@ class FundraiserCard extends StatelessWidget {
     );
   }
 }
+

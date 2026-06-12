@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../widgets/Footer.dart';
 import '../widgets/InboxListItem.dart';
 import '../models/InboxData.dart';
@@ -105,7 +105,6 @@ class _InboxPageState extends State<InboxPage> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     final content = Column(
       children: [
-        // Tab bar container
         Container(
           color: const Color(0xFF1EA0E5),
           width: double.infinity,
@@ -126,7 +125,6 @@ class _InboxPageState extends State<InboxPage> with SingleTickerProviderStateMix
             ),
           ),
         ),
-        // Tab View
         Expanded(
           child: Container(
             color: const Color(0xFFF8FAFC), 
@@ -151,3 +149,4 @@ class _InboxPageState extends State<InboxPage> with SingleTickerProviderStateMix
     return content;
   }
 }
+

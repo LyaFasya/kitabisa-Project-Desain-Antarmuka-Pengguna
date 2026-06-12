@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class DonationCard extends StatelessWidget {
   final String title;
@@ -21,7 +21,6 @@ class DonationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Hapus fixed width (width: 200) agar kartu bisa melebar/menyusut fleksibel di dalam Grid
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -38,10 +37,8 @@ class DonationCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           
-          // --- BAGIAN ATAS: GAMBAR & BADGE ---
           Stack(
             children: [
-              // Gambar Thumbnail
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.network(
@@ -57,7 +54,6 @@ class DonationCard extends StatelessWidget {
                 ),
               ),
               
-              // Badge "12 hari lagi" (Pojok Kiri Atas)
               Positioned(
                 top: 0,
                 left: 0,
@@ -83,13 +79,11 @@ class DonationCard extends StatelessWidget {
             ],
           ),
 
-          // --- BAGIAN BAWAH: KONTEN TEKS ---
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Nama Author
                 Text(
                   author,
                   style: const TextStyle(fontSize: 11, color: Colors.grey),
@@ -98,7 +92,6 @@ class DonationCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 
-                // Judul Kampanye
                 Text(
                   title,
                   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, height: 1.3),
@@ -107,7 +100,6 @@ class DonationCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 16), // Jarak sebelum harga
                 
-                // Terkumpul & Nominal
                 Row(
                   children: [
                     const Text('Terkumpul ', style: TextStyle(fontSize: 11, color: Colors.grey)),
@@ -119,7 +111,6 @@ class DonationCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 
-                // Progress Bar
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: LinearProgressIndicator(

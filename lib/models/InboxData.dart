@@ -1,4 +1,4 @@
-
+﻿
 
 class InboxData {
   final String title;
@@ -46,3 +46,4 @@ class InboxData {
     ),
   ];
 }
+

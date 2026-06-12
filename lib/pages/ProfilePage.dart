@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../widgets/Header.dart';
 import '../widgets/Footer.dart';
 
@@ -852,3 +852,4 @@ class SettingTile extends StatelessWidget {
     );
   }
 }
+

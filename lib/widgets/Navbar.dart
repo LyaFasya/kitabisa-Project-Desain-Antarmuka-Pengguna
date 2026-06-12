@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class CustomNavbar extends StatelessWidget {
   final int selectedIndex;
@@ -30,3 +30,4 @@ class CustomNavbar extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   final int selectedIndex;
@@ -41,7 +41,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // --- HEADER TAMPILAN MOBILE ---
   Widget _buildMobileHeader(BuildContext context) {
     return Row(
       children: [
@@ -69,7 +68,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // --- HEADER TAMPILAN DESKTOP & TABLET ---
   Widget _buildDesktopHeader(BuildContext context) {
     return Row(
       children: [
@@ -98,7 +96,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // Widget Item Navigasi (Teks)
   Widget _navItem(String title, bool isActive, VoidCallback onTap, {bool isButton = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -135,7 +132,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // Ikon Pencarian, Notifikasi, dan Profil
   Widget _buildActionIcons(BuildContext context, {bool showName = false}) {
     return Row(
       children: [

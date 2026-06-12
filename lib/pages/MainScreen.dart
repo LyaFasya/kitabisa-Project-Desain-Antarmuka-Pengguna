@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import 'ProfilePage.dart';
 import 'InboxPage.dart';
@@ -28,7 +28,6 @@ class _MainScreenState extends State<MainScreen> {
     _selectedIndex = widget.initialIndex;
   }
 
-  // Handle tab switching
   void _onTabChanged(int index) {
     setState(() {
       _selectedIndex = index;
@@ -40,7 +39,6 @@ class _MainScreenState extends State<MainScreen> {
     final double width = MediaQuery.of(context).size.width;
     final bool isLargeScreen = width >= 1024;
 
-    // Mobile AppBars dynamically matching selected tabs
     PreferredSizeWidget? _buildMobileAppBar() {
       if (isLargeScreen) return null; // Let the desktop header handle it
 
@@ -61,7 +59,6 @@ class _MainScreenState extends State<MainScreen> {
       }
     }
 
-    // Centered tab content views
     Widget _buildTabBody() {
       switch (_selectedIndex) {
         case 0:
@@ -87,7 +84,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       drawer: isLargeScreen ? null : _buildDrawer(),
-      // App Bar is MainHeader on desktop, and custom per-tab on mobile
       appBar: isLargeScreen
           ? MainHeader(
               selectedIndex: _selectedIndex,
@@ -95,7 +91,6 @@ class _MainScreenState extends State<MainScreen> {
             )
           : _buildMobileAppBar(),
       body: _buildTabBody(),
-      // Bottom navigation navbar only on mobile devices
       bottomNavigationBar: isLargeScreen
           ? null
           : CustomNavbar(
@@ -265,3 +260,4 @@ class _PlaceholderTab extends StatelessWidget {
     );
   }
 }
+

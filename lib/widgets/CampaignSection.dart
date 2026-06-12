@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-// Pastikan nama file import ini sesuai dengan file kartu donasimu sebelumnya
+﻿import 'package:flutter/material.dart';
 import 'DonationCard.dart'; 
 
 class CampaignSection extends StatelessWidget {
-  // Variabel untuk menerima judul section yang berbeda-beda
   final String title;
 
   const CampaignSection({
@@ -11,9 +9,6 @@ class CampaignSection extends StatelessWidget {
     required this.title,
   });
 
-  // Contoh Mock Data (Anggap saja ini data dari API/Database)
-  // Karena kita pakai section ini berulang kali, idealnya data ini nanti juga dioper dari luar,
-  // tapi untuk keperluan UI Slicing, kita taruh di dalam dulu.
   final List<Map<String, dynamic>> _campaigns = const [
     {
       "title": "Donasi keselamatan umat untuk anak yatim",
@@ -55,7 +50,6 @@ class CampaignSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         
-        // --- BAGIAN JUDUL SECTION ---
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
@@ -68,11 +62,9 @@ class CampaignSection extends StatelessWidget {
           ),
         ),
         
-        // --- LOGIC LAYOUT ADAPTIF ---
         LayoutBuilder(
           builder: (context, constraints) {
             
-            // 1. JIKA LAYAR HP (Lebar < 600px): Gunakan GRID VIEW
             if (constraints.maxWidth < 600) {
               return GridView.builder(
                 shrinkWrap: true, // Wajib diaktifkan di dalam ScrollView utama
@@ -98,7 +90,6 @@ class CampaignSection extends StatelessWidget {
               );
             } 
             
-            // 2. JIKA LAYAR TABLET/DESKTOP (Lebar > 600px): Gunakan HORIZONTAL LIST VIEW
             else {
               return SizedBox(
                 height: 310, // Tinggi statis area scroll horizontal (sesuaikan jika kartu terpotong)
@@ -110,7 +101,6 @@ class CampaignSection extends StatelessWidget {
                     
                     return Padding(
                       padding: const EdgeInsets.only(right: 16.0),
-                      // SizedBox di sini berfungsi untuk mengunci lebar kartu di mode Desktop
                       child: SizedBox(
                         width: 240, 
                         child: DonationCard(

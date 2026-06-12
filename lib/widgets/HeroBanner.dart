@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class HeroBanner extends StatelessWidget {
   const HeroBanner({super.key});
@@ -19,7 +19,6 @@ class HeroBanner extends StatelessWidget {
             direction: isMobile ? Axis.vertical : Axis.horizontal,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // --- KIRI: TEKS & TOMBOL ---
               Expanded(
                 flex: isMobile ? 0 : 1,
                 child: Column(
@@ -51,7 +50,6 @@ class HeroBanner extends StatelessWidget {
                 ),
               ),
               if (isMobile) const SizedBox(height: 24),
-              // --- KANAN: GAMBAR ---
               Expanded(
                 flex: isMobile ? 0 : 1,
                 child: ClipRRect(

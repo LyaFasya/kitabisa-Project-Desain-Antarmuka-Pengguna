@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class MainHeader extends StatelessWidget implements PreferredSizeWidget {
   final int selectedIndex;
@@ -27,7 +27,6 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
             constraints: const BoxConstraints(maxWidth: 1200),
             child: Row(
               children: [
-                // Logo (Clicking it also goes to Home)
                 GestureDetector(
                   onTap: () => onTabChanged?.call(0),
                   child: const MouseRegion(
@@ -43,7 +42,6 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 const Spacer(),
-                // Navigation Links
                 _navLink("Beranda", selectedIndex == 0, () => onTabChanged?.call(0)),
                 const SizedBox(width: 24),
                 _navLink("Galang Dana", selectedIndex == 1, () => onTabChanged?.call(1)),
@@ -52,7 +50,6 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(width: 24),
                 _navLink("Inbox", selectedIndex == 3, () => onTabChanged?.call(3)),
                 const Spacer(),
-                // Actions
                 IconButton(
                   icon: const Icon(Icons.search, color: Colors.blueGrey),
                   onPressed: () {},
@@ -80,7 +77,6 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
                   ],
                 ),
                 const SizedBox(width: 24),
-                // User Dropdown Profile (Clicking it goes to profile tab)
                 InkWell(
                   onTap: () => onTabChanged?.call(4),
                   borderRadius: BorderRadius.circular(24),
@@ -129,7 +125,6 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
       );
     } else {
-      // Mobile compact layout
       return AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
@@ -212,3 +207,4 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(64);
 }
+

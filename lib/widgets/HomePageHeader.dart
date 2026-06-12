@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../themes/colors.dart';
 
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -24,7 +24,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Menggunakan breakpoint yang agak tinggi agar di tablet mode masih pakai mobile header
             if (constraints.maxWidth < 900) { 
               return _buildMobileHeader(context);
             } else {
@@ -36,12 +35,10 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // --- HEADER TAMPILAN MOBILE ---
   Widget _buildMobileHeader(BuildContext context) {
     return Row(
       children: [
         IconButton(
-          // Tombol hamburger untuk membuka Drawer
           icon: const Icon(Icons.menu, color: Color(0xFF1EA0E5), size: 30),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
@@ -54,13 +51,11 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         const Spacer(),
-        // Di mobile tidak menampilkan nama, hanya inisial profil
         _buildActionIcons(),
       ],
     );
   }
 
-  // --- HEADER TAMPILAN DESKTOP & TABLET ---
   Widget _buildDesktopHeader(BuildContext context) {
     return Row(
       children: [
@@ -73,19 +68,16 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         const SizedBox(width: 40),
-        // Menu Navigasi (Merapikan spacing)
         _navItem('Beranda'),
         _navItem('Galang Dana'),
         _navItem('Donasi', isButton: true),
         _navItem('Inbox'),
         const Spacer(),
-        // Di desktop menampilkan nama lengkap
         _buildActionIcons(showName: true),
       ],
     );
   }
 
-  // Widget Item Navigasi (Teks)
   Widget _navItem(String title, {bool isButton = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10), // Mengurangi spacing teks agar pas
@@ -109,9 +101,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // ===========================================================================
-  // MODIFIKASI SECTION PROFIL UNTUK MENCEGAH OVERFLOW
-  // ===========================================================================
   Widget _buildActionIcons({bool showName = false}) {
     return Row(
       mainAxisSize: MainAxisSize.min, // Agar Row tidak mengambil full width
@@ -133,9 +122,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
         const SizedBox(width: 15), // Sedikit mengurangi jarak antar ikon
         
-        // --- SECTION PROFIL (YANG DIKECILKAN) ---
         Container(
-          // 1. Mengurangi padding horizontal container utama (dari 8 jadi 6)
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.shade200),
@@ -144,19 +131,14 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // 2. Mengecilkan ukuran inisial profil (radius dari 16 jadi 14)
               const CircleAvatar(
                 radius: 14, 
                 backgroundColor: Color(0xFF1EA0E5),
                 child: Text('AF', style: TextStyle(color: Colors.white, fontSize: 10)),
               ),
               if (showName) ...[
-                // 3. Mengurangi jarak antara inisial dan nama (dari 8 jadi 6)
                 const SizedBox(width: 6),
                 
-                // 4. MENANGANI TEKS NAMA AGAR BISA MENYUSUT (FLEXIBLE)
-                // Ini penting: Flexible memaksa teks menyusut jika ruang habis,
-                // dan ellipsis akan memotongnya dengan '...' jika masih kepanjangan.
                 const Flexible(
                   child: Text(
                     'Aulya Fasya',
@@ -170,10 +152,8 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
               
-              // 5. Menambah sedikit jarak aman sebelum panah agar visualnya bagus
               const SizedBox(width: 2),
               
-              // 6. Ikon Panah (Sekarang dijamin tidak overflow karena teks nama diproteksi Flexible)
               const Icon(Icons.keyboard_arrow_down, color: Colors.grey, size: 20),
             ],
           ),

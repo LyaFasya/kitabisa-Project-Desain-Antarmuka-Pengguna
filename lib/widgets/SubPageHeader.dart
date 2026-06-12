@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class SubPageHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -72,3 +72,4 @@ class SubPageHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(64);
 }
+
