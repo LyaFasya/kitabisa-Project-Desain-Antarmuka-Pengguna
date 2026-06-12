@@ -24,8 +24,7 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
       child: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Menggunakan breakpoint yang agak tinggi agar di tablet mode masih pakai mobile header
-            if (constraints.maxWidth < 900) { 
+            if (constraints.maxWidth < 800) {
               return _buildMobileHeader(context);
             } else {
               return _buildDesktopHeader(context);
@@ -41,7 +40,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
     return Row(
       children: [
         IconButton(
-          // Tombol hamburger untuk membuka Drawer
           icon: const Icon(Icons.menu, color: Color(0xFF1EA0E5), size: 30),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
@@ -54,7 +52,6 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         const Spacer(),
-        // Di mobile tidak menampilkan nama, hanya inisial profil
         _buildActionIcons(),
       ],
     );
@@ -73,13 +70,12 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         const SizedBox(width: 40),
-        // Menu Navigasi (Merapikan spacing)
+        // Menu Navigasi
         _navItem('Beranda'),
         _navItem('Galang Dana'),
         _navItem('Donasi', isButton: true),
         _navItem('Inbox'),
         const Spacer(),
-        // Di desktop menampilkan nama lengkap
         _buildActionIcons(showName: true),
       ],
     );
@@ -88,9 +84,9 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   // Widget Item Navigasi (Teks)
   Widget _navItem(String title, {bool isButton = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10), // Mengurangi spacing teks agar pas
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Container(
-        padding: isButton ? const EdgeInsets.symmetric(horizontal: 18, vertical: 7) : null,
+        padding: isButton ? const EdgeInsets.symmetric(horizontal: 20, vertical: 8) : null,
         decoration: isButton
             ? BoxDecoration(
                 color: const Color(0xFFE3F2FD),
@@ -102,22 +98,19 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           style: TextStyle(
             color: isButton ? const Color(0xFF1EA0E5) : Colors.black54,
             fontWeight: isButton ? FontWeight.bold : FontWeight.w500,
-            fontSize: 14, // Sedikit mengecilkan font menu agar pas di tablet lebar
+            fontSize: 15,
           ),
         ),
       ),
     );
   }
 
-  // ===========================================================================
-  // MODIFIKASI SECTION PROFIL UNTUK MENCEGAH OVERFLOW
-  // ===========================================================================
+  // Ikon Pencarian, Notifikasi, dan Profil
   Widget _buildActionIcons({bool showName = false}) {
     return Row(
-      mainAxisSize: MainAxisSize.min, // Agar Row tidak mengambil full width
       children: [
         const Icon(Icons.search, color: Colors.black54, size: 26),
-        const SizedBox(width: 15), // Sedikit mengurangi jarak antar ikon
+        const SizedBox(width: 20),
         Stack(
           children: [
             const Icon(Icons.notifications_none, color: Colors.black54, size: 26),
@@ -131,50 +124,25 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
             )
           ],
         ),
-        const SizedBox(width: 15), // Sedikit mengurangi jarak antar ikon
-        
-        // --- SECTION PROFIL (YANG DIKECILKAN) ---
+        const SizedBox(width: 20),
         Container(
-          // 1. Mengurangi padding horizontal container utama (dari 8 jadi 6)
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.shade200),
             borderRadius: BorderRadius.circular(25),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              // 2. Mengecilkan ukuran inisial profil (radius dari 16 jadi 14)
               const CircleAvatar(
-                radius: 14, 
+                radius: 16,
                 backgroundColor: Color(0xFF1EA0E5),
-                child: Text('AF', style: TextStyle(color: Colors.white, fontSize: 10)),
+                child: Text('AF', style: TextStyle(color: Colors.white, fontSize: 12)),
               ),
               if (showName) ...[
-                // 3. Mengurangi jarak antara inisial dan nama (dari 8 jadi 6)
-                const SizedBox(width: 6),
-                
-                // 4. MENANGANI TEKS NAMA AGAR BISA MENYUSUT (FLEXIBLE)
-                // Ini penting: Flexible memaksa teks menyusut jika ruang habis,
-                // dan ellipsis akan memotongnya dengan '...' jika masih kepanjangan.
-                const Flexible(
-                  child: Text(
-                    'Aulya Fasya',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500, 
-                      fontSize: 13 // Mengecilkan sedikit font nama (dari default 14 ke 13)
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
+                const SizedBox(width: 8),
+                const Text('Aulya Fasya', style: TextStyle(fontWeight: FontWeight.w500)),
               ],
-              
-              // 5. Menambah sedikit jarak aman sebelum panah agar visualnya bagus
-              const SizedBox(width: 2),
-              
-              // 6. Ikon Panah (Sekarang dijamin tidak overflow karena teks nama diproteksi Flexible)
-              const Icon(Icons.keyboard_arrow_down, color: Colors.grey, size: 20),
+              const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
             ],
           ),
         ),

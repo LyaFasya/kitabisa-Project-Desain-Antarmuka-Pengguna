@@ -5,25 +5,45 @@ class MenuGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 4,
-      mainAxisSpacing: 4,
-      crossAxisSpacing: 5,
-      childAspectRatio: 0.9,
-      children: [
-        _buildMenuIcon(Icons.favorite, 'Donasi', Colors.pink, isNew: false),
-        _buildMenuIcon(Icons.account_balance, 'Zakat', Colors.green, isNew: false),
-        _buildMenuIcon(Icons.volunteer_activism, 'Galang Dana', Colors.blue, isNew: false),
-        _buildMenuIcon(Icons.event_repeat, 'Donasi\nOtomatis', Colors.blueGrey, isNew: false),
-        _buildMenuIcon(Icons.stars, 'Kitabisa\nExperience', Colors.orange, isNew: false),
-        _buildMenuIcon(Icons.handshake, 'Kolaborasi CSR', Colors.blue.shade300, isNew: false),
-        _buildMenuIcon(Icons.health_and_safety, 'Asuransi\nSalingJaga', Colors.orange.shade700, isNew: false),
-      ],
+    // Kita bungkus dengan LayoutBuilder untuk mendeteksi lebar area kontainer
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        
+        // Menentukan apakah ini layar besar (Desktop/Tablet) atau HP
+        final bool isDesktop = constraints.maxWidth > 600;
+
+        return GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          
+          // 1. UBAH JUMLAH KOLOM DINAMIS
+          // Desktop: 8 kolom berjejer. HP: 4 kolom.
+          crossAxisCount: isDesktop ? 8 : 4,
+          
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 8,
+          
+          // 2. UBAH RASIO KOTAK DINAMIS
+          // Desktop: 1.0 (Persegi normal). HP: 0.65 (Memanjang ke bawah agar tidak overflow)
+          childAspectRatio: isDesktop ? 1.0 : 0.65, 
+          
+          children: [
+            _buildMenuIcon(Icons.favorite, 'Donasi', Colors.pink, isNew: false),
+            _buildMenuIcon(Icons.account_balance, 'Zakat', Colors.green, isNew: false),
+            _buildMenuIcon(Icons.volunteer_activism, 'Galang Dana', Colors.blue, isNew: false),
+            _buildMenuIcon(Icons.event_repeat, 'Donasi\nOtomatis', Colors.blueGrey, isNew: false),
+            _buildMenuIcon(Icons.stars, 'Kitabisa\nExperience', Colors.orange, isNew: true),
+            _buildMenuIcon(Icons.handshake, 'Kolaborasi CSR', Colors.blue.shade300, isNew: false),
+            _buildMenuIcon(Icons.health_and_safety, 'Asuransi\nSalingJaga', Colors.orange.shade700, isNew: true),
+            // Tambahkan 1 ikon lagi agar genap 8 (opsional, disesuaikan dengan desain)
+            _buildMenuIcon(Icons.mosque, 'Masjid', Colors.teal, isNew: false), 
+          ],
+        );
+      },
     );
   }
 
+  // Fungsi desain satuan untuk ikon tetap sama
   Widget _buildMenuIcon(IconData icon, String label, Color color, {required bool isNew}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -37,13 +57,19 @@ class MenuGrid extends StatelessWidget {
                 color: Colors.grey.shade100,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: 28),
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: Image.asset(
+                  'assets/images/${label.replaceAll('\n', ' ')}.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Icon(icon, color: color, size: 28),
+                ),
+              ),
             ),
-
-            // ngasih label fitur baru cek boolean
             if (isNew)
               Positioned(
-                bottom: -10,
+                top: -8,
                 left: 0,
                 right: 0,
                 child: Center(

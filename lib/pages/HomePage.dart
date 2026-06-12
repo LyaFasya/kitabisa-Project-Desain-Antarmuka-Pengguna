@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-// Import semua "kepingan Lego" dari folder widgets
-import '../widgets/HomePageHeader.dart';
-import '../widgets/GridOpsi.dart';
-import '../widgets/Navbar.dart';
+
+
+import '../themes/colors.dart';
+import '../widgets/AppBar.dart'; // Atau custom_navbar.dart
+import '../widgets/GridOpsi.dart'; // Atau menu_grid.dart
+import '../widgets/ResponsiveLayout.dart'; 
+import '../widgets/HeroBanner.dart'; 
+import '../widgets/CTABanner.dart'; 
+import '../widgets/Category.dart'; 
+import '../widgets/CampaignSection.dart'; 
+import '../widgets/Footer.dart'; 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,75 +22,121 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   void _onNavbarTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    setState(() => _selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white, // Latar belakang utama putih bersih
       
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF10A8E5),
-        title: Container(
-          height: 40,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.lightBlue.shade300.withOpacity(0.4),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Row(
-            children: const [
-              Expanded(
-                child: Text(
-                  'Coba cari "Tolong menolong"',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
-              ),
-              Icon(Icons.search, color: Colors.white),
-            ],
-          ),
-        ),
-      ),
+      // 1. DRAWER (Menu Samping untuk Mobile)
+      drawer: _buildDrawer(),
 
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const DonationHeader(),
-            
-            const SizedBox(height: 24),
-            
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Mau berbuat baik apa hari ini?',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF4A4A4A),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  
-                  // Memanggil widget Grid Menu
-                  MenuGrid(),
-                ],
-              ),
+      // 2. HEADER ATAS (Responsif: Hamburger di Mobile, Teks Nav di Desktop)
+      appBar: const CustomHeader(),
+
+      // 3. BODY UTAMA (Dibungkus logic responsif)
+      body: ResponsiveLayout(
+        mobileBody: _buildContent(isMobile: true),
+        desktopBody: _buildContent(isMobile: false),
+      ),
+    );
+  }
+
+  Widget _buildContent({required bool isMobile}) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // --- SECTION 1: HERO BANNER UTAMA ---
+          // (Kamu bisa mengganti konten di dalam HeroBanner dengan Image.asset 'section.png' jika ingin menggunakan gambar statismu)
+          const HeroBanner(),
+          
+          const SizedBox(height: 32),
+
+          // --- SECTION 2: MENU GRID (Ikon Layanan) ---
+          _buildConstrained(const MenuGrid()),
+          
+          const SizedBox(height: 32),
+
+          // --- SECTION 3: KARTU DONASI MENDESAK ---
+          _buildConstrained(
+            const CampaignSection(title: 'Penggalangan Dana Mendesak')
+          ),
+          
+          const SizedBox(height: 40),
+
+          // --- SECTION 4: BANNER TENGAH (Gotong Royong Aceh) ---
+          const MiddleBanner(),
+          
+          const SizedBox(height: 40),
+
+          // --- SECTION 5: KARTU DONASI BERKELANJUTAN ---
+          _buildConstrained(
+            const CampaignSection(title: 'Donasi Berkelanjutan')
+          ),
+          
+          const SizedBox(height: 32),
+
+          // --- SECTION 6: KARTU PILIHAN KITA BISA ---
+          _buildConstrained(
+            const CampaignSection(title: 'Pilihan Kita Bisa')
+          ),
+          
+          const SizedBox(height: 40),
+
+          // --- SECTION 7: KATEGORI FAVORIT ---
+          _buildConstrained(const CategorySection()),
+          
+          const SizedBox(height: 60), // Jarak ekstra sebelum footer
+
+          // --- SECTION 8: FOOTER ---
+          const FooterSection(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConstrained(Widget child) {
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 1100),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: child,
+      ),
+    );
+  }
+
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(color: AppColors.primaryColor),
+            accountName: const Text("Aulya Fasya"),
+            accountEmail: const Text("aulya@example.com"),
+            currentAccountPicture: const CircleAvatar(
+              backgroundColor: Colors.white, 
+              child: Text("AF", style: TextStyle(color: Color(0xFF1EA0E5), fontWeight: FontWeight.bold)),
             ),
-            const SizedBox(height: 32),
-          ],
-        ),
-      ),
-
-      bottomNavigationBar: CustomNavbar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onNavbarTapped,
+          ),
+          ListTile(
+            leading: const Icon(Icons.home), 
+            title: const Text("Beranda"), 
+            onTap: () => Navigator.pop(context)
+          ),
+          ListTile(
+            leading: const Icon(Icons.favorite), 
+            title: const Text("Donasi Saya"), 
+            onTap: () => Navigator.pop(context)
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.settings), 
+            title: const Text("Pengaturan"), 
+            onTap: () => Navigator.pop(context)
+          ),
+        ],
       ),
     );
   }
