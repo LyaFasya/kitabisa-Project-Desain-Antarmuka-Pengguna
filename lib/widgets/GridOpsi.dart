@@ -28,7 +28,7 @@ class MenuGrid extends StatelessWidget {
           childAspectRatio: isDesktop ? 1.0 : 0.65, 
           
           children: [
-            _buildMenuIcon(Icons.favorite, 'Donasi', Colors.pink, isNew: false),
+            _buildMenuIcon(Icons.favorite, 'Donasi', Colors.pink, isNew: false, onTap: () => Navigator.pushNamed(context, '/donasi-list')),
             _buildMenuIcon(Icons.account_balance, 'Zakat', Colors.green, isNew: false),
             _buildMenuIcon(Icons.volunteer_activism, 'Galang Dana', Colors.blue, isNew: false),
             _buildMenuIcon(Icons.event_repeat, 'Donasi\nOtomatis', Colors.blueGrey, isNew: false),
@@ -44,58 +44,62 @@ class MenuGrid extends StatelessWidget {
   }
 
   // Fungsi desain satuan untuk ikon tetap sama
-  Widget _buildMenuIcon(IconData icon, String label, Color color, {required bool isNew}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                shape: BoxShape.circle,
-              ),
-              child: SizedBox(
-                width: 28,
-                height: 28,
-                child: Image.asset(
-                  'assets/images/${label.replaceAll('\n', ' ')}.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Icon(icon, color: color, size: 28),
+  Widget _buildMenuIcon(IconData icon, String label, Color color, {required bool isNew, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  shape: BoxShape.circle,
+                ),
+                child: SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: ['Donasi', 'Zakat', 'Galang Dana', 'Donasi Otomatis', 'Kolaborasi CSR'].contains(label.replaceAll('\n', ' '))
+                      ? Image.asset(
+                          'assets/images/${label.replaceAll('\n', ' ')}.png',
+                          fit: BoxFit.contain,
+                        )
+                      : Icon(icon, color: color, size: 28),
                 ),
               ),
-            ),
-            if (isNew)
-              Positioned(
-                top: -8,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.pink,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Text(
-                      'BARU',
-                      style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+              if (isNew)
+                Positioned(
+                  top: -8,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Text(
+                        'BARU',
+                        style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 11, color: Color(0xFF4A4A4A)),
-          textAlign: TextAlign.center,
-          maxLines: 2,
-        ),
-      ],
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 11, color: Color(0xFF4A4A4A)),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
+        ],
+      ),
     );
   }
 }

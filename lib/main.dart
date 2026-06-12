@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'pages/MainScreen.dart';
 import 'pages/EditProfilePage.dart';
+import 'pages/Donasi.dart';
+import 'pages/DonasiList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const MainScreen(initialIndex: 0),
         '/profile': (context) => const MainScreen(initialIndex: 4),
         '/edit-profile': (context) => const EditProfilePage(),
+        '/donasi': (context) => const DonasiPage(),
+        '/donasi-list': (context) => const DonasiListPage(),
       },
     );
   }
