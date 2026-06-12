@@ -5,6 +5,7 @@ import 'InboxPage.dart';
 import '../widgets/Header.dart';
 import '../widgets/Navbar.dart';
 import '../widgets/Footer.dart';
+import 'GalangDanaPage.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialIndex;
@@ -66,12 +67,7 @@ class _MainScreenState extends State<MainScreen> {
         case 0:
           return const HomePage(showScaffold: false);
         case 1:
-          return _PlaceholderTab(
-            title: "Galang Dana",
-            description: "Mulai galang dana untuk bantu sesama. Fitur ini akan segera hadir!",
-            icon: Icons.savings_outlined,
-            onGoHome: () => _onTabChanged(0),
-          );
+          return const GalangDanaPage();  
         case 2:
           return _PlaceholderTab(
             title: "Donasi Saya",
