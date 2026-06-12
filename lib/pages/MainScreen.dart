@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import 'ProfilePage.dart';
+import 'InboxPage.dart';
 import '../widgets/Header.dart';
 import '../widgets/Navbar.dart';
 import '../widgets/Footer.dart';
@@ -44,6 +45,7 @@ class _MainScreenState extends State<MainScreen> {
 
       switch (_selectedIndex) {
         case 0: // Home
+        case 3: // Inbox
         case 4: // Profile Mobile Header
           return MainHeader(
             selectedIndex: _selectedIndex,
@@ -53,8 +55,6 @@ class _MainScreenState extends State<MainScreen> {
           return _subPageMobileAppBar("Galang Dana");
         case 2:
           return _subPageMobileAppBar("Donasi Saya");
-        case 3:
-          return _subPageMobileAppBar("Inbox");
         default:
           return null;
       }
@@ -80,12 +80,7 @@ class _MainScreenState extends State<MainScreen> {
             onGoHome: () => _onTabChanged(0),
           );
         case 3:
-          return _PlaceholderTab(
-            title: "Inbox",
-            description: "Inbox Anda kosong.",
-            icon: Icons.mail_outline,
-            onGoHome: () => _onTabChanged(0),
-          );
+          return const InboxPage(showScaffold: false);
         case 4:
           return const ProfilePage(showScaffold: false);
         default:
