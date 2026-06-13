@@ -1,6 +1,6 @@
-# flutter_application_1
+# Kitabisa UI Replica
 
-A new Flutter project.
+A Flutter UI replica of the Kitabisa platform, focusing on modern design and user experience.
 
 ## Getting Started
 

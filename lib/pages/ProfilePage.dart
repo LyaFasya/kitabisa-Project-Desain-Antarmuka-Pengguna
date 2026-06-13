@@ -4,11 +4,257 @@ import '../widgets/Footer.dart';
 
 class ProfilePage extends StatelessWidget {
   final bool showScaffold;
-  const ProfilePage({super.key, this.showScaffold = true});
+  final ValueChanged<int>? onTabChanged;
+
+  const ProfilePage({
+    super.key,
+    this.showScaffold = true,
+    this.onTabChanged,
+  });
 
   static const Color primaryBlue = Color(0xFF18AEE2);
   static const Color darkText = Color(0xFF1E293B);
   static const Color softText = Color(0xFF94A3B8);
+
+  void _showTopUpModal(BuildContext context) {
+    int selectedAmount = 50000;
+    final customController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Isi Saldo Kantong Donasi",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: darkText),
+                    ),
+                    const Divider(height: 24),
+                    const Text(
+                      "Pilih Nominal Top Up",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: darkText),
+                    ),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [20000, 50000, 100000, 200000].map((amt) {
+                        final bool isSel = amt == selectedAmount;
+                        return InkWell(
+                          onTap: () {
+                            setModalState(() {
+                              selectedAmount = amt;
+                              customController.clear();
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isSel ? const Color(0xFFE0F2FE) : Colors.white,
+                              border: Border.all(
+                                color: isSel ? const Color(0xFF0284C7) : Colors.grey.shade300,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              "Rp ${amt.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: isSel ? const Color(0xFF0284C7) : Colors.black87,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: customController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: "Nominal lainnya...",
+                        prefixText: "Rp ",
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      onChanged: (val) {
+                        final parsed = int.tryParse(val);
+                        if (parsed != null) {
+                          setModalState(() {
+                            selectedAmount = parsed;
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Top up sebesar Rp ${selectedAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')} berhasil dilakukan!"),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryBlue,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text("Konfirmasi Pembayaran", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showWithdrawModal(BuildContext context) {
+    int selectedAmount = 50000;
+    final customController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Tarik Saldo Kantong Donasi",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: darkText),
+                    ),
+                    const Divider(height: 24),
+                    const Text(
+                      "Masukkan Nominal Penarikan",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: darkText),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: customController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: "Contoh: 50.000",
+                        prefixText: "Rp ",
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      onChanged: (val) {
+                        final parsed = int.tryParse(val);
+                        if (parsed != null) {
+                          setModalState(() {
+                            selectedAmount = parsed;
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Penarikan saldo sebesar Rp ${selectedAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')} sedang diproses!"),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text("Tarik Saldo", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +342,7 @@ class ProfilePage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () => onTabChanged?.call(0), // Ke Beranda
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryBlue,
                       foregroundColor: Colors.white,
@@ -115,7 +361,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: () => onTabChanged?.call(1), // Ke Galang Dana
                     style: OutlinedButton.styleFrom(
                       foregroundColor: primaryBlue,
                       side: const BorderSide(color: primaryBlue),
@@ -150,27 +396,34 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Icon(
+            children: [
+              const Icon(
                 Icons.account_balance_wallet_outlined,
                 color: Colors.white,
                 size: 14,
               ),
-              SizedBox(width: 6),
-              Text(
+              const SizedBox(width: 6),
+              const Text(
                 "Kantong Donasi",
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-              Spacer(),
-              Icon(
-                Icons.favorite_border,
-                color: Colors.white,
-                size: 14,
-              ),
-              SizedBox(width: 6),
-              Text(
-                "Riwayat",
-                style: TextStyle(color: Colors.white, fontSize: 12),
+              const Spacer(),
+              InkWell(
+                onTap: () => onTabChanged?.call(2), // Ke tab Donasi Saya
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+                      size: 14,
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      "Riwayat",
+                      style: TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -188,7 +441,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => _showTopUpModal(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFF7043),
                     foregroundColor: Colors.white,
@@ -207,7 +460,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => _showWithdrawModal(context),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
                     side: BorderSide(
@@ -316,100 +569,142 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
-                        children: const [
+                        children: [
                           Expanded(
                             child: SettingTile(
                               icon: Icons.settings_outlined,
                               title: "Pengaturan",
                               subtitle: "Akun & notifikasi",
                               iconColor: Colors.indigo,
-                              bgColor: Color(0xFFE9ECFF),
+                              bgColor: const Color(0xFFE9ECFF),
                               showDivider: false,
+                              onTap: () => Navigator.pushNamed(context, '/edit-profile'),
                             ),
                           ),
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           Expanded(
                             child: SettingTile(
                               icon: Icons.help_outline,
                               title: "Bantuan",
                               subtitle: "Pusat bantuan & FAQ",
                               iconColor: Colors.green,
-                              bgColor: Color(0xFFE4FBEF),
+                              bgColor: const Color(0xFFE4FBEF),
                               showDivider: false,
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Membuka Pusat Bantuan Kitabisa..."), backgroundColor: Color(0xFF1EA0E5)),
+                                );
+                              },
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Row(
-                        children: const [
+                        children: [
                           Expanded(
                             child: SettingTile(
                               icon: Icons.info_outline,
                               title: "Tentang KitaBisa",
                               subtitle: "Visi, misi & tim",
                               iconColor: Colors.lightBlue,
-                              bgColor: Color(0xFFE3F5FF),
+                              bgColor: const Color(0xFFE3F5FF),
                               showDivider: false,
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Membuka Halaman Tentang Kitabisa..."), backgroundColor: Color(0xFF1EA0E5)),
+                                );
+                              },
                             ),
                           ),
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           Expanded(
                             child: SettingTile(
                               icon: Icons.article_outlined,
                               title: "Syarat & Ketentuan",
                               subtitle: "Privasi & kebijakan",
                               iconColor: Colors.deepOrange,
-                              bgColor: Color(0xFFFFEFE2),
+                              bgColor: const Color(0xFFFFEFE2),
                               showDivider: false,
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Membuka Halaman Syarat & Ketentuan..."), backgroundColor: Color(0xFF1EA0E5)),
+                                );
+                              },
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
-                      const SettingTile(
+                      SettingTile(
                         icon: Icons.verified_user_outlined,
                         title: "Akuntabilitas & Transparansi",
                         subtitle: "Laporan dan audit dana publik",
                         iconColor: Colors.purple,
-                        bgColor: Color(0xFFF7E8FF),
+                        bgColor: const Color(0xFFF7E8FF),
                         showDivider: false,
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Membuka Laporan Akuntabilitas & Transparansi..."), backgroundColor: Color(0xFF1EA0E5)),
+                          );
+                        },
                       ),
                     ],
                   ),
                 )
               : Column(
-                  children: const [
+                  children: [
                     SettingTile(
                       icon: Icons.settings_outlined,
                       title: "Pengaturan",
                       iconColor: Colors.indigo,
-                      bgColor: Color(0xFFE9ECFF),
+                      bgColor: const Color(0xFFE9ECFF),
+                      onTap: () => Navigator.pushNamed(context, '/edit-profile'),
                     ),
                     SettingTile(
                       icon: Icons.help_outline,
                       title: "Bantuan",
                       iconColor: Colors.green,
-                      bgColor: Color(0xFFE4FBEF),
+                      bgColor: const Color(0xFFE4FBEF),
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Membuka Pusat Bantuan Kitabisa..."), backgroundColor: Color(0xFF1EA0E5)),
+                        );
+                      },
                     ),
                     SettingTile(
                       icon: Icons.info_outline,
                       title: "Tentang KitaBisa",
                       iconColor: Colors.lightBlue,
-                      bgColor: Color(0xFFE3F5FF),
+                      bgColor: const Color(0xFFE3F5FF),
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Membuka Halaman Tentang Kitabisa..."), backgroundColor: Color(0xFF1EA0E5)),
+                        );
+                      },
                     ),
                     SettingTile(
                       icon: Icons.article_outlined,
                       title: "Syarat & Ketentuan",
                       iconColor: Colors.deepOrange,
-                      bgColor: Color(0xFFFFEFE2),
+                      bgColor: const Color(0xFFFFEFE2),
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Membuka Halaman Syarat & Ketentuan..."), backgroundColor: Color(0xFF1EA0E5)),
+                        );
+                      },
                     ),
                     SettingTile(
                       icon: Icons.verified_user_outlined,
                       title: "Akuntabilitas & Transparansi",
                       iconColor: Colors.purple,
-                      bgColor: Color(0xFFF7E8FF),
+                      bgColor: const Color(0xFFF7E8FF),
                       showDivider: false,
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Membuka Laporan Akuntabilitas & Transparansi..."), backgroundColor: Color(0xFF1EA0E5)),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -465,7 +760,14 @@ class ProfilePage extends StatelessWidget {
           ),
           if (isLargeScreen) ...[
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Membuka App Store / Google Play untuk mempelajari aplikasi Kitabisa..."),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
               child: const Text(
                 "Pelajari",
                 style: TextStyle(
@@ -477,7 +779,14 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(width: 12),
           ],
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Membuka App Store / Google Play untuk menginstal aplikasi Kitabisa..."),
+                  backgroundColor: Color(0xFF1EA0E5),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFF7043),
               foregroundColor: Colors.white,
@@ -783,6 +1092,13 @@ class _PreferenceTileState extends State<PreferenceTile> {
                 setState(() {
                   isActive = value;
                 });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("${widget.title} ${value ? 'diaktifkan' : 'dinonaktifkan'}"),
+                    duration: const Duration(seconds: 1),
+                    backgroundColor: value ? const Color(0xFF1EA0E5) : Colors.grey,
+                  ),
+                );
               },
             ),
           ),
@@ -804,6 +1120,7 @@ class SettingTile extends StatelessWidget {
   final Color iconColor;
   final Color bgColor;
   final bool showDivider;
+  final VoidCallback? onTap;
 
   const SettingTile({
     super.key,
@@ -813,6 +1130,7 @@ class SettingTile extends StatelessWidget {
     required this.iconColor,
     required this.bgColor,
     this.showDivider = true,
+    this.onTap,
   });
 
   @override
@@ -820,6 +1138,7 @@ class SettingTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          onTap: onTap,
           leading: CircleAvatar(
             backgroundColor: bgColor,
             child: Icon(icon, color: iconColor, size: 20),

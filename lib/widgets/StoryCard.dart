@@ -13,7 +13,18 @@ class StoryCard extends StatelessWidget {
           Row(children: [
             const Expanded(child: Text('Cerita Penggalangan Dana',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF222222)))),
-            InkWell(onTap: () {}, child: const Icon(Icons.chevron_right, color: Color(0xFFBBBBBB), size: 22)),
+            InkWell(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Membuka cerita selengkapnya..."),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+              child: const Icon(Icons.chevron_right, color: Color(0xFFBBBBBB), size: 22),
+            ),
           ]),
           const SizedBox(height: 16),
           Text(

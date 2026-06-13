@@ -89,30 +89,45 @@ class _StatsRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _stat(Icons.favorite, '2.806', 'Donasi', const Color(0xFF10A8E5)),
+        _stat(context, Icons.favorite, '2.806', 'Donasi', const Color(0xFF10A8E5)),
         Container(width: 1, height: 32, color: const Color(0xFFEEEEEE)),
-        _stat(Icons.article_outlined, null, 'Kabar Terbaru', const Color(0xFF666666)),
+        _stat(context, Icons.article_outlined, null, 'Kabar Terbaru', const Color(0xFF666666)),
         Container(width: 1, height: 32, color: const Color(0xFFEEEEEE)),
-        _stat(Icons.account_balance_wallet_outlined, null, 'Pencairan Dana', const Color(0xFF666666)),
+        _stat(context, Icons.account_balance_wallet_outlined, null, 'Pencairan Dana', const Color(0xFF666666)),
       ],
     );
   }
 
-  Widget _stat(IconData icon, String? value, String label, Color color) {
+  Widget _stat(BuildContext context, IconData icon, String? value, String label, Color color) {
     return Expanded(
-      child: Column(
-        children: [
-          if (value != null)
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(icon, size: 16, color: color),
-              const SizedBox(width: 4),
-              Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: color)),
-            ])
-          else
-            Icon(icon, size: 20, color: color),
-          const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 11, color: Color(0xFF999999)), textAlign: TextAlign.center),
-        ],
+      child: InkWell(
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Membuka rincian $label..."),
+              duration: const Duration(seconds: 2),
+              backgroundColor: const Color(0xFF1EA0E5),
+            ),
+          );
+        },
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            children: [
+              if (value != null)
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Icon(icon, size: 16, color: color),
+                  const SizedBox(width: 4),
+                  Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: color)),
+                ])
+              else
+                Icon(icon, size: 20, color: color),
+              const SizedBox(height: 4),
+              Text(label, style: const TextStyle(fontSize: 11, color: Color(0xFF999999)), textAlign: TextAlign.center),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -125,7 +140,17 @@ class _DonasiButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity, height: 46,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/donation-form',
+            arguments: {
+              'title': 'URGENT Bantu Pulihkan Fasilitas Kesehatan di Aceh!',
+              'image': 'https://picsum.photos/1200/400?random=11',
+              'author': 'Relawan Kita',
+            },
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF10A8E5), foregroundColor: Colors.white,
           elevation: 2, shadowColor: const Color(0x4410A8E5),
@@ -144,7 +169,15 @@ class _BagikanButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity, height: 46,
       child: OutlinedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Link kampanye berhasil disalin! Silakan bagikan ke kerabat Anda."),
+              duration: Duration(seconds: 2),
+              backgroundColor: Color(0xFF1EA0E5),
+            ),
+          );
+        },
         icon: const Icon(Icons.share, size: 18, color: Color(0xFF555555)),
         label: const Text('Bagikan', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF555555))),
         style: OutlinedButton.styleFrom(

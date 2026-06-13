@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class MainHeader extends StatelessWidget implements PreferredSizeWidget {
   final int selectedIndex;
@@ -11,6 +11,19 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
   });
 
   static const Color primaryBlue = Color(0xFF18AEE2);
+
+  void _handleNavigation(BuildContext context, int index) {
+    if (onTabChanged != null) {
+      onTabChanged!.call(index);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home',
+        (route) => false,
+        arguments: index,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +41,7 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () => onTabChanged?.call(0),
+                  onTap: () => _handleNavigation(context, 0),
                   child: const MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: Text(
@@ -42,43 +55,63 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 const Spacer(),
-                _navLink("Beranda", selectedIndex == 0, () => onTabChanged?.call(0)),
+                _navLink("Beranda", selectedIndex == 0, () => _handleNavigation(context, 0)),
                 const SizedBox(width: 24),
-                _navLink("Galang Dana", selectedIndex == 1, () => onTabChanged?.call(1)),
+                _navLink("Galang Dana", selectedIndex == 1, () => _handleNavigation(context, 1)),
                 const SizedBox(width: 24),
-                _navLink("Donasi Saya", selectedIndex == 2, () => onTabChanged?.call(2)),
+                _navLink("Donasi", selectedIndex == 2, () => _handleNavigation(context, 2)),
                 const SizedBox(width: 24),
-                _navLink("Inbox", selectedIndex == 3, () => onTabChanged?.call(3)),
+                _navLink("Inbox", selectedIndex == 3, () => _handleNavigation(context, 3)),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.search, color: Colors.blueGrey),
-                  onPressed: () {},
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Fitur Pencarian akan segera hadir!"),
+                        duration: Duration(seconds: 2),
+                        backgroundColor: Color(0xFF1EA0E5),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(width: 12),
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    const Icon(Icons.notifications_none, color: Colors.blueGrey),
-                    Positioned(
-                      right: -6,
-                      top: -8,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFF7043), // Orange/red notification badge
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Text(
-                          "3",
-                          style: TextStyle(color: Colors.white, fontSize: 8),
+                InkWell(
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Fitur Notifikasi akan segera hadir!"),
+                        duration: Duration(seconds: 2),
+                        backgroundColor: Color(0xFF1EA0E5),
+                      ),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const Icon(Icons.notifications_none, color: Colors.blueGrey),
+                      Positioned(
+                        right: -6,
+                        top: -8,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFFF7043), // Orange/red notification badge
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Text(
+                            "3",
+                            style: TextStyle(color: Colors.white, fontSize: 8),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 24),
                 InkWell(
-                  onTap: () => onTabChanged?.call(4),
+                  onTap: () => _handleNavigation(context, 4),
                   borderRadius: BorderRadius.circular(24),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -129,47 +162,80 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.white,
         elevation: 0.5,
         automaticallyImplyLeading: false,
-        title: const Text(
-          "Kitabisa",
-          style: TextStyle(
-            color: Color(0xFF159BD3),
-            fontWeight: FontWeight.bold,
+        title: GestureDetector(
+          onTap: () => _handleNavigation(context, 0),
+          child: const MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Text(
+              "Kitabisa",
+              style: TextStyle(
+                color: Color(0xFF159BD3),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         actions: [
-          const Icon(Icons.search, color: Colors.blueGrey),
-          const SizedBox(width: 16),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              const Icon(Icons.notifications_none, color: Colors.blueGrey),
-              Positioned(
-                right: -6,
-                top: -8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: primaryBlue,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Text(
-                    "3",
-                    style: TextStyle(color: Colors.white, fontSize: 8),
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.blueGrey),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Fitur Pencarian akan segera hadir!"),
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Color(0xFF1EA0E5),
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 8),
+          InkWell(
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Fitur Notifikasi akan segera hadir!"),
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Color(0xFF1EA0E5),
+                ),
+              );
+            },
+            borderRadius: BorderRadius.circular(16),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.notifications_none, color: Colors.blueGrey),
+                Positioned(
+                  right: -6,
+                  top: -8,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: primaryBlue,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text(
+                      "3",
+                      style: TextStyle(color: Colors.white, fontSize: 8),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          const CircleAvatar(
-            radius: 15,
-            backgroundColor: primaryBlue,
-            child: Text(
-              "AF",
-              style: TextStyle(color: Colors.white, fontSize: 12),
+              ],
             ),
           ),
           const SizedBox(width: 16),
+          InkWell(
+            onTap: () => _handleNavigation(context, 4),
+            borderRadius: BorderRadius.circular(15),
+            child: const CircleAvatar(
+              radius: 15,
+              backgroundColor: primaryBlue,
+              child: Text(
+                "AF",
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu, color: Colors.blueGrey),

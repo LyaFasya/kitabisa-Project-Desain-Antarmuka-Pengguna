@@ -618,7 +618,15 @@ class EditMenuTile extends StatelessWidget {
             Icons.chevron_right,
             color: Color(0xFFCBD5E1),
           ),
-          onTap: () {},
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Membuka pengaturan $title..."),
+                duration: const Duration(seconds: 2),
+                backgroundColor: const Color(0xFF1EA0E5),
+              ),
+            );
+          },
         ),
         if (showDivider)
           const Divider(

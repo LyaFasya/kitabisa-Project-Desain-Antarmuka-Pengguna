@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FooterSection extends StatelessWidget {
@@ -54,11 +54,11 @@ class FooterSection extends StatelessWidget {
                 spacing: 8.0, // Jarak horizontal
                 runSpacing: 8.0, // Jarak vertikal jika terpaksa turun baris di HP
                 children: [
-                  _buildFooterLink('Tentang Kitabisa'),
+                  _buildFooterLink(context, 'Tentang Kitabisa'),
                   _buildSeparator(),
-                  _buildFooterLink('Syarat & Ketentuan'),
+                  _buildFooterLink(context, 'Syarat & Ketentuan'),
                   _buildSeparator(),
-                  _buildFooterLink('Pusat Bantuan'),
+                  _buildFooterLink(context, 'Pusat Bantuan'),
                 ],
               ),
               const SizedBox(height: 32),
@@ -68,13 +68,13 @@ class FooterSection extends StatelessWidget {
                 spacing: 16.0,
                 runSpacing: 16.0,
                 children: [
-                  _buildSocialIcon(FontAwesomeIcons.facebookF),
-                  _buildSocialIcon(FontAwesomeIcons.twitter),
-                  _buildSocialIcon(FontAwesomeIcons.instagram),
-                  _buildSocialIcon(FontAwesomeIcons.youtube),
-                  _buildSocialIcon(FontAwesomeIcons.tiktok),
-                  _buildSocialIcon(FontAwesomeIcons.linkedinIn),
-                  _buildSocialIcon(FontAwesomeIcons.paperPlane),
+                  _buildSocialIcon(context, FontAwesomeIcons.facebookF, "Facebook"),
+                  _buildSocialIcon(context, FontAwesomeIcons.twitter, "Twitter"),
+                  _buildSocialIcon(context, FontAwesomeIcons.instagram, "Instagram"),
+                  _buildSocialIcon(context, FontAwesomeIcons.youtube, "YouTube"),
+                  _buildSocialIcon(context, FontAwesomeIcons.tiktok, "TikTok"),
+                  _buildSocialIcon(context, FontAwesomeIcons.linkedinIn, "LinkedIn"),
+                  _buildSocialIcon(context, FontAwesomeIcons.paperPlane, "Telegram"),
                 ],
               ),
               const SizedBox(height: 32),
@@ -94,9 +94,17 @@ class FooterSection extends StatelessWidget {
     );
   }
 
-  Widget _buildFooterLink(String text) {
+  // Helper Method: Desain Teks Link
+  Widget _buildFooterLink(BuildContext context, String text) {
     return InkWell(
       onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Membuka halaman $text..."),
+            duration: const Duration(seconds: 2),
+            backgroundColor: const Color(0xFF1EA0E5),
+          ),
+        );
       }, 
       child: Text(
         text,
@@ -116,9 +124,18 @@ class FooterSection extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialIcon(dynamic icon) {
+  // Helper Method: Desain Lingkaran Ikon
+  Widget _buildSocialIcon(BuildContext context, dynamic icon, String name) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Membuka media sosial Kitabisa di $name..."),
+            duration: const Duration(seconds: 2),
+            backgroundColor: const Color(0xFF1EA0E5),
+          ),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: const BoxDecoration(

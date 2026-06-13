@@ -1,9 +1,10 @@
-﻿import 'package:flutter/material.dart';
-import '../widgets/DonasiNavbar.dart';
+import 'package:flutter/material.dart';
 import '../widgets/Footer.dart';
 import '../widgets/CampaignInfoCard.dart';
 import '../widgets/FundraiserCard.dart';
 import '../widgets/StoryCard.dart';
+import '../widgets/Header.dart';
+import '../widgets/AppDrawer.dart';
 
 class DonasiPage extends StatelessWidget {
   const DonasiPage({super.key});
@@ -16,7 +17,18 @@ class DonasiPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
-      appBar: const DonasiNavbar(activeMenu: 'Donasi'),
+      drawer: const AppDrawer(selectedIndex: 2),
+      appBar: MainHeader(
+        selectedIndex: 2, // Highlight the "Donasi" tab
+        onTabChanged: (index) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/home',
+            (route) => false,
+            arguments: index,
+          );
+        },
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

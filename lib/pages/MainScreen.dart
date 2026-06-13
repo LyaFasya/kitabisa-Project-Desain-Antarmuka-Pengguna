@@ -1,11 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import 'ProfilePage.dart';
 import 'InboxPage.dart';
+import 'DonasiList.dart';
 import '../widgets/Header.dart';
-import '../widgets/Navbar.dart';
 import '../widgets/Footer.dart';
 import 'GalangDanaPage.dart';
+import '../widgets/AppDrawer.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialIndex;
@@ -42,40 +43,33 @@ class _MainScreenState extends State<MainScreen> {
     PreferredSizeWidget? _buildMobileAppBar() {
       if (isLargeScreen) return null; // Let the desktop header handle it
 
-      switch (_selectedIndex) {
-        case 0: // Home
-        case 3: // Inbox
-        case 4: // Profile Mobile Header
-          return MainHeader(
-            selectedIndex: _selectedIndex,
-            onTabChanged: _onTabChanged,
-          );
-        case 1:
-          return _subPageMobileAppBar("Galang Dana");
-        case 2:
-          return _subPageMobileAppBar("Donasi Saya");
-        default:
-          return null;
-      }
+      return MainHeader(
+        selectedIndex: _selectedIndex,
+        onTabChanged: _onTabChanged,
+      );
     }
 
     Widget _buildTabBody() {
       switch (_selectedIndex) {
         case 0:
-          return const HomePage(showScaffold: false);
+          return HomePage(
+            showScaffold: false,
+            onTabChanged: _onTabChanged,
+          );
         case 1:
-          return const GalangDanaPage();  
+          return const GalangDanaPage(showScaffold: false);  
         case 2:
-          return _PlaceholderTab(
-            title: "Donasi Saya",
-            description: "Belum ada riwayat donasi. Ayo mulai berbuat baik hari ini!",
-            icon: Icons.receipt_long_outlined,
-            onGoHome: () => _onTabChanged(0),
+          return DonasiListPage(
+            showScaffold: false,
+            onTabChanged: _onTabChanged,
           );
         case 3:
           return const InboxPage(showScaffold: false);
         case 4:
-          return const ProfilePage(showScaffold: false);
+          return ProfilePage(
+            showScaffold: false,
+            onTabChanged: _onTabChanged,
+          );
         default:
           return const HomePage(showScaffold: false);
       }
@@ -83,7 +77,12 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      drawer: isLargeScreen ? null : _buildDrawer(),
+      drawer: isLargeScreen
+          ? null
+          : AppDrawer(
+              selectedIndex: _selectedIndex,
+              onTabChanged: _onTabChanged,
+            ),
       appBar: isLargeScreen
           ? MainHeader(
               selectedIndex: _selectedIndex,
@@ -91,72 +90,6 @@ class _MainScreenState extends State<MainScreen> {
             )
           : _buildMobileAppBar(),
       body: _buildTabBody(),
-      bottomNavigationBar: isLargeScreen
-          ? null
-          : CustomNavbar(
-              selectedIndex: _selectedIndex,
-              onItemTapped: _onTabChanged,
-            ),
-    );
-  }
-
-  PreferredSizeWidget _subPageMobileAppBar(String title) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0.5,
-      centerTitle: true,
-      automaticallyImplyLeading: false,
-      title: Text(
-        title,
-        style: const TextStyle(
-          color: Color(0xFF1E293B),
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDrawer() {
-    return Drawer(
-      child: Column(
-        children: [
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: Color(0xFF1EA0E5)),
-            accountName: Text("Aulya Fasya"),
-            accountEmail: Text("aulyafasya@gmail.com"),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white, 
-              child: Text("AF", style: TextStyle(color: Color(0xFF1EA0E5), fontWeight: FontWeight.bold)),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home), 
-            title: const Text("Beranda"), 
-            onTap: () {
-              Navigator.pop(context);
-              _onTabChanged(0);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.favorite), 
-            title: const Text("Donasi Saya"), 
-            onTap: () {
-              Navigator.pop(context);
-              _onTabChanged(2);
-            },
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.settings), 
-            title: const Text("Pengaturan"), 
-            onTap: () {
-              Navigator.pop(context);
-              _onTabChanged(4);
-            },
-          ),
-        ],
-      ),
     );
   }
 }

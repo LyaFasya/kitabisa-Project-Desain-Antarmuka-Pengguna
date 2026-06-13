@@ -35,19 +35,22 @@ class DonationListItem extends StatelessWidget {
     switch (layout) {
       case DonationCardLayout.featured:
         return SizedBox(
-          height: 280,
+          height: 320,
           child: Row(children: [
             Expanded(child: _buildImage(double.infinity)),
-            Expanded(child: _buildInfo(titleSize: 16, compact: false)),
+            Expanded(child: _buildInfo(titleSize: 15, compact: false)),
           ]),
         );
       case DonationCardLayout.vertical:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImage(150),
-            _buildInfo(titleSize: 13, compact: true),
-          ],
+        return SizedBox(
+          height: 320,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImage(160),
+              Expanded(child: _buildInfo(titleSize: 13, compact: true)),
+            ],
+          ),
         );
       case DonationCardLayout.horizontal:
         return SizedBox(

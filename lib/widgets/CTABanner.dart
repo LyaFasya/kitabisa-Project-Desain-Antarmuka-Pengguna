@@ -37,7 +37,17 @@ class MiddleBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/donation-form',
+                      arguments: {
+                        'title': 'Gotong Royong Bangkitkan Aceh Kembali',
+                        'author': 'Relawan Kita',
+                        'image': 'https://picsum.photos/1200/400?random=11',
+                      },
+                    );
+                  },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: Colors.orange),
                   child: const Text('Patungan Sekarang'),
                 ),

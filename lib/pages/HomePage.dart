@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 
 import '../themes/colors.dart';
@@ -13,7 +13,13 @@ import '../widgets/Footer.dart';
 
 class HomePage extends StatefulWidget {
   final bool showScaffold;
-  const HomePage({super.key, this.showScaffold = true});
+  final ValueChanged<int>? onTabChanged;
+
+  const HomePage({
+    super.key,
+    this.showScaffold = true,
+    this.onTabChanged,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -36,7 +42,11 @@ class _HomePageState extends State<HomePage> {
       
       drawer: _buildDrawer(),
 
-      appBar: const MainHeader(selectedIndex: 0),
+      // 2. HEADER ATAS (Responsif: Hamburger di Mobile, Teks Nav di Desktop)
+      appBar: MainHeader(
+        selectedIndex: 0,
+        onTabChanged: widget.onTabChanged,
+      ),
 
       body: content,
     );
@@ -50,7 +60,8 @@ class _HomePageState extends State<HomePage> {
           
           const SizedBox(height: 32),
 
-          _buildConstrained(const MenuGrid()),
+          // --- SECTION 2: MENU GRID (Ikon Layanan) ---
+          _buildConstrained(MenuGrid(onTabChanged: widget.onTabChanged)),
           
           const SizedBox(height: 32),
 

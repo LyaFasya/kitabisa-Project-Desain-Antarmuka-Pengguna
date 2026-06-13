@@ -41,9 +41,9 @@ class HeroBanner extends StatelessWidget {
                     const SizedBox(height: 24),
                     Row(
                       children: [
-                        _buildStoreButton('App Store', Icons.apple),
+                        _buildStoreButton(context, 'App Store', Icons.apple),
                         const SizedBox(width: 12),
-                        _buildStoreButton('Google Play', Icons.play_arrow),
+                        _buildStoreButton(context, 'Google Play', Icons.play_arrow),
                       ],
                     ),
                   ],
@@ -69,16 +69,28 @@ class HeroBanner extends StatelessWidget {
     );
   }
 
-  Widget _buildStoreButton(String text, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.white, size: 20),
-          const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        ],
+  Widget _buildStoreButton(BuildContext context, String text, IconData icon) {
+    return InkWell(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Membuka $text untuk mengunduh aplikasi Kitabisa..."),
+            duration: const Duration(seconds: 2),
+            backgroundColor: const Color(0xFF1EA0E5),
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white, size: 20),
+            const SizedBox(width: 8),
+            Text(text, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ],
+        ),
       ),
     );
   }

@@ -1,13 +1,19 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class MenuGrid extends StatelessWidget {
-  const MenuGrid({super.key});
+  final ValueChanged<int>? onTabChanged;
+
+  const MenuGrid({
+    super.key,
+    this.onTabChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         
+        // Menentukan apakah ini layar besar (Desktop/Tablet) or HP
         final bool isDesktop = constraints.maxWidth > 600;
 
         return GridView.count(
@@ -19,28 +25,127 @@ class MenuGrid extends StatelessWidget {
           mainAxisSpacing: 16,
           crossAxisSpacing: 8,
           
-          childAspectRatio: isDesktop ? 1.0 : 0.65, 
-          
           children: [
-            _buildMenuIcon(Icons.favorite, 'Donasi', Colors.pink, isNew: false, onTap: () => Navigator.pushNamed(context, '/donasi-list')),
-            _buildMenuIcon(Icons.account_balance, 'Zakat', Colors.green, isNew: false),
-            _buildMenuIcon(Icons.volunteer_activism, 'Galang Dana', Colors.blue, isNew: false),
-            _buildMenuIcon(Icons.event_repeat, 'Donasi\nOtomatis', Colors.blueGrey, isNew: false),
-            _buildMenuIcon(Icons.stars, 'Kitabisa\nExperience', Colors.orange, isNew: true),
-            _buildMenuIcon(Icons.handshake, 'Kolaborasi CSR', Colors.blue.shade300, isNew: false),
-            _buildMenuIcon(Icons.health_and_safety, 'Asuransi\nSalingJaga', Colors.orange.shade700, isNew: true),
-            _buildMenuIcon(Icons.mosque, 'Masjid', Colors.teal, isNew: false), 
+            _buildMenuIcon(
+              Icons.favorite,
+              'Donasi',
+              Colors.pink,
+              isNew: false,
+              onTap: () => Navigator.pushNamed(context, '/donasi-list'),
+            ),
+            _buildMenuIcon(
+              Icons.account_balance,
+              'Zakat',
+              Colors.green,
+              isNew: false,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Fitur Zakat akan segera hadir!"),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+            ),
+            _buildMenuIcon(
+              Icons.volunteer_activism,
+              'Galang\nDana',
+              Colors.blue,
+              isNew: false,
+              onTap: () {
+                onTabChanged?.call(1); // Ke tab Galang Dana
+              },
+            ),
+            _buildMenuIcon(
+              Icons.event_repeat,
+              'Donasi\nOtomatis',
+              Colors.blueGrey,
+              isNew: false,
+              onTap: () {
+                onTabChanged?.call(4); // Ke tab Profile
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Membuka preferensi Donasi Otomatis di tab Akun..."),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+            ),
+            _buildMenuIcon(
+              Icons.stars,
+              'Kitabisa\nExperience',
+              Colors.orange,
+              isNew: true,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Fitur Kitabisa Experience akan segera hadir!"),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+            ),
+            _buildMenuIcon(
+              Icons.handshake,
+              'Kolaborasi\nCSR',
+              Colors.blue.shade300,
+              isNew: false,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Fitur Kolaborasi CSR akan segera hadir!"),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+            ),
+            _buildMenuIcon(
+              Icons.health_and_safety,
+              'Asuransi\nSalingJaga',
+              Colors.orange.shade700,
+              isNew: true,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Fitur Asuransi SalingJaga akan segera hadir!"),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+            ),
+            _buildMenuIcon(
+              Icons.mosque,
+              'Masjid',
+              Colors.teal,
+              isNew: false,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Fitur Masjid akan segera hadir!"),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Color(0xFF1EA0E5),
+                  ),
+                );
+              },
+            ), 
           ],
         );
       },
     );
   }
 
+  // Fungsi desain satuan untuk ikon tetap sama dengan InkWell
   Widget _buildMenuIcon(IconData icon, String label, Color color, {required bool isNew, VoidCallback? onTap}) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(
             clipBehavior: Clip.none,
@@ -54,7 +159,7 @@ class MenuGrid extends StatelessWidget {
                 child: SizedBox(
                   width: 28,
                   height: 28,
-                  child: ['Donasi', 'Zakat', 'Galang Dana', 'Donasi Otomatis', 'Kolaborasi CSR'].contains(label.replaceAll('\n', ' '))
+                  child: ['Donasi', 'Zakat', 'Donasi Otomatis', 'Kolaborasi CSR'].contains(label.replaceAll('\n', ' '))
                       ? Image.asset(
                           'assets/images/${label.replaceAll('\n', ' ')}.png',
                           fit: BoxFit.contain,
